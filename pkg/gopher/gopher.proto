@@ -1,7 +1,7 @@
 syntax = "proto3";
 package gopher;
 
-option go_package = "github.com/hirasawayuki/go-grpc-cli";
+option go_package = "pkg/gopher/;gopher";
 
 service Gopher {
 	rpc GetGopher (GopherRequest) returns (GopherReply) {}
