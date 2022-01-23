@@ -10,7 +10,7 @@ import (
 	"os"
 	"time"
 
-	pb "github.com/hirasawayuki/go-grpc-cli/pkg/gopher"
+	pb "github.com/hirasawayuki/go-grpc-cli/pkg/github"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 )
@@ -32,19 +32,21 @@ var clientCmd = &cobra.Command{
 		}
 		defer conn.Close()
 
-		client := pb.NewGopherClient(conn)
-		var name string
+		client := pb.NewGithubClient(conn)
+
+		// Github login ID.
+		var login string
 
 		if len(os.Args) > 2 {
-			name = os.Args[2]
+			login = os.Args[2]
 		}
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
-		r, err := client.GetGopher(ctx, &pb.GopherRequest{Name: name})
+		r, err := client.GetGithubUser(ctx, &pb.GithubUserRequest{Login: login})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
-		log.Printf("URL: %s", r.GetMessage())
+		log.Printf("Github user URL: %s", r.GetHtmlUrl())
 	},
 }
 

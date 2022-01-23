@@ -1,0 +1,16 @@
+syntax = "proto3";
+package github;
+
+option go_package = "pkg/github/;github";
+
+service Github {
+	rpc GetGithubUser (GithubUserRequest) returns (GithubUserResponse) {}
+}
+
+message GithubUserRequest {
+	string login = 1;
+}
+
+message GithubUserResponse {
+	string html_url = 1;
+}
